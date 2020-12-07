@@ -1,0 +1,22 @@
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+// ng g cl shared/interceptors/auth-interceptor
+export class AuthInterceptor implements HttpInterceptor {
+    // intercept http calls and manipulate http header with auth token
+
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+
+        // access the token from the storage
+        const bearerToken = sessionStorage.getItem('token');
+
+        // clone the req, in order to modify req header
+        req = req.clone({ // and then, inside the cloned req, attach the token
+            setHeaders: {
+                Authorization: 'Bearer ' + bearerToken
+            }
+        });
+
+        return next.handle(req);
+    }
+}
