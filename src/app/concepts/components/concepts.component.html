@@ -1,0 +1,137 @@
+<div class="container-fluid">
+
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" data-toggle="tab" href="#basic-databinding" role="tab"
+        aria-controls="basic-databinding" aria-selected="true">Basic Data Binding</a>
+      <a class="nav-item nav-link" data-toggle="tab" href="#cpb-tab" role="tab" aria-controls="cpb-tab"
+        aria-selected="false">Custom Prop Binding</a>
+      <a class="nav-item nav-link" data-toggle="tab" href="#ceb-tab" role="tab" aria-controls="ceb-tab"
+        aria-selected="false">Child to Parent Comp Communication</a>
+      <a class="nav-item nav-link" data-toggle="tab" href="#directives-tab" role="tab" aria-controls="directives-tab"
+        aria-selected="false">Directives</a>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+
+    <!-- Create Basic Data Binding -->
+    <div class="tab-pane fade show active" id="basic-databinding" role="tabpanel"
+      aria-labelledby="basic-databinding-tab">
+      <h2>Basic Data Binding</h2>
+
+      <!-- String Interpolation -->
+      <h4>String interpolation</h4>
+      <p>{{appName}}</p>
+      <p>No of developers working on is : {{noOfDevelopers}}</p>
+      <p title="{{appName}}"> Mouse to see the app name</p>
+      <input type="text" value="{{appName}}"> <!-- not recommended -->
+
+      <!-- Propert Binding -->
+      <hr>
+      <h4>Propery Binding</h4>
+      <p [title]="averageExp"> Mouse to see the app name</p>
+      <input type="text" [value]="appName"><!-- Recommended -->
+
+      <div class="brownText">Testing style</div>
+      <div [ngClass]="{ brownText : false }">Will it work?</div>
+      <div [ngClass]="{ 'alert alert-success' : true }">Will it work?</div>
+      <div class="alert" [ngClass]="{ 'alert-danger' : true, 'alert:success' : false }">Will it work?</div>
+
+      <!-- ngStyle -->
+      <div [ngStyle]="myStyles">ngStyle variable in ts holding styles</div>
+
+      <!-- Event Binding -->
+      <hr>
+      <h4>Event Binding</h4>
+      <button class="btn btn-primary" (click)="onClickHandler()">click</button>
+      <p>{{message}}</p>
+      <button (click)="disableHandler($event)">Submit</button>
+      <br><br>
+      <button (click)="clickHandler($event.target, 'cheked it')">Check</button>
+
+      <!-- Two Way Binding -->
+      <hr>
+      <h4>Two way Binding</h4>
+      <p>{{ courseName }}</p>
+      <input type="text" [value]="courseName"><br><br>
+      <input type="text" [(ngModel)]="courseName">
+
+    </div>
+
+    <!-- Create Custom Property Binding -->
+    <div class="tab-pane fade" id="cpb-tab" role="tabpanel" aria-labelledby="cpb-tab-tab">
+      <h2>Custom Property Binding -- Parent to Child Comp Communication</h2>
+      <app-cpb></app-cpb>
+      <app-cpb [age]="30"></app-cpb>
+      <app-cpb [age]="40"></app-cpb>
+    </div>
+
+    <!-- Create Custom Event Binding -->
+    <div class="tab-pane fade" id="ceb-tab" role="tabpanel" aria-labelledby="ceb-tab-tab">
+      <p> Data Received from Child Comp is : {{dataReceivedFromChildComp}}</p>
+
+      <h2>Child to Parent Comp Communication</h2>
+      <!-- Step 4 of CEB: Have an Event handler to Receive the data in parent comp. $event -->
+      <app-ceb (profileLoaded)="profileLoadedHandler($event)"></app-ceb>
+    </div>
+
+    <div class="tab-pane fade" id="directives-tab" role="tabpanel" aria-labelledby="directives-tab">
+      <h2>Directives</h2>
+      <pre>
+        Directives
+        ---
+          Special Instructions to the DOM 
+
+          1. Attribute Directives
+              ngClass, ngStyle, routerLink, routerLinkActive
+
+          2. Structural Directives 
+              Will make impact in structural layer.
+              *ngIf, *ngFor, ngSwitch 
+
+      </pre>
+
+      <h4>*ngIf</h4>
+
+      <div class="alert alert-success" *ngIf="isLoggedIn; else NotAuthBox">
+        Thanks for logging in.. you can acces our premium content.
+      </div>
+
+      <ng-template #NotAuthBox>
+        <div class="alert alert-danger">
+          You are not authenticated. Please login.
+        </div>
+      </ng-template>
+
+      <h4>*ngFor</h4>
+
+      <ul>
+        <li *ngFor="let skill of skillList"># {{skill}}</li>
+      </ul>
+
+      <!-- ngSwitch -->
+      <h4>ngSwitch</h4>
+      <select [(ngModel)]="selectedValue">
+        <option *ngFor="let item of items;" [value]="item.name">{{item.name}}</option>
+      </select>
+      <div class='row' [ngSwitch]="selectedValue">
+        <div *ngSwitchCase="'One'">One is Pressed</div>
+        <div *ngSwitchCase="'Two'">Two is Selected</div>
+        <div *ngSwitchDefault>Default Option</div>
+      </div>
+
+      <!-- Custom Attribute Directive -->
+      <h4>Custom Attribute Directive</h4>
+      <div appColorizer> Testing in Colorizer is directive
+        <button class="btn btn-danger">Click me</button>
+      </div>
+
+      <!-- Custom STructural directive -->
+      <h4>Custom STructural directive</h4>
+      <p>ng g d concepts/directive/demoIf</p>
+      <div *appDemoIf="">
+        <p>Authanticated</p>
+      </div>
+    </div>
+  </div>
+</div>
